@@ -1,17 +1,21 @@
-import { ReactNode } from 'react';
 import className from 'classnames';
 
-interface ButtonProps {
-  children: ReactNode;
-  primary?: true;
-  secondary?: true;
-  success?: true;
-  warning?: true;
-  danger?: true;
-  outline?: true;
-  rounded?: true;
-  [key: string]: any;
-}
+type ExcludeFromTuple<T extends any[], U> = {
+  [K in keyof T]: T[K] extends U ? never : T[K];
+}[number];
+
+type Exclusive<T extends PropertyKey[], U = any> = T[number] extends infer E
+  ? E extends string
+    ? Record<E, U> & { [k in ExcludeFromTuple<T, E>]?: never }
+    : never
+  : never & {};
+
+type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> &
+  Partial<{
+    outline?: boolean;
+    rounded?: boolean;
+  }> &
+  Exclusive<['primary', 'secondary', 'success', 'warning', 'danger'], boolean>;
 
 function Button({
   children,
