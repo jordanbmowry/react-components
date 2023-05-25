@@ -5,12 +5,7 @@ function ButtonPage() {
   return (
     <div>
       <div>
-        <Button
-          className='mb-2'
-          onClick={() => console.log('click')}
-          rounded
-          primary
-        >
+        <Button className='mb-2' onClick={() => {}} rounded primary>
           <GoBell />
           Click me!!
         </Button>
