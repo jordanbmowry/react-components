@@ -1,6 +1,7 @@
 import type { ConfigObj } from '../pages/TablePage';
+import { Fragment } from 'react';
 
-interface TableProps<T> {
+export interface TableProps<T> {
   data: T[];
   config: ConfigObj<T>[];
   keyFn(rowData: T): string;
@@ -8,6 +9,9 @@ interface TableProps<T> {
 
 function Table<T>({ data, config, keyFn }: TableProps<T>) {
   const renderedHeaders = config.map((col) => {
+    if (col.header) {
+      return <Fragment key={col.label}>{col.header()}</Fragment>;
+    }
     return <th key={col.label}>{col.label}</th>;
   });
 
